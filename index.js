@@ -60,7 +60,7 @@ const phoneNumber = new Composer()
     await ctx.reply(`${ctx.from.first_name} ` + 'Введите Ваш email.') 
     return ctx.wizard.next()
     });
-   
+
     const CHAT_ID = 462881256;  ////373854503
 
     const email = new Composer()
@@ -79,7 +79,6 @@ bot.hears('Узнать подробнее про работы', ctx =>
 ctx.replyWithHTML(`${ctx.from.first_name} ` + 'Перейдите пожалуйста на мой сайт и прочитайте описание по кнопке слева 👈.')
 ctx.sendMessage(`${ctx.from.first_name} ` + "Просматривает ваш сайт", {chat_id: CHAT_ID})
 });
-  
 
 const menuScene = new Scenes.WizardScene('sceneWizard', startWizard, jobs, firstName, birthDate, placeAndTime, phoneNumber, email)
 
@@ -90,6 +89,11 @@ bot.use(stage.middleware())
 
 bot.hears('Заказать работу', (ctx) => ctx.scene.enter('sceneWizard'));
 
-bot.launch()
+bot.launch({
+    webhook: {
+        domain: 'https://astrology-telegram-bot.herokuapp.com/',
+        port: process.env.PORT || 5000
+    }
+})
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
